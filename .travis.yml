@@ -2,10 +2,12 @@ sudo: required
 services:
   - docker
 
-before_install: cd code/web/
+before_install:
+  - cd code/web/
   - docker build -t jessietabilisma/kaagapAI-test -f Dockerfile.test .
 
-script: cd code/web
+script:
+  - cd code/web
   - docker run jessietabilisma/kaagapAI-test npm run test -- --coverage
 
 deploy:
