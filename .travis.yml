@@ -4,11 +4,11 @@ services:
 
 before_install:
   - cd code/web/
-  - docker build -t jessietabilisma/kaagapAI-test -f Dockerfile.test .
+  - docker build -t jessietabilisma/kaagapai-test -f Dockerfile.test .
 
 script:
   - cd code/web
-  - docker run jessietabilisma/kaagapAI-test npm run test -- --coverage
+  - docker run jessietabilisma/kaagapai-test npm run test -- --coverage
 
 deploy:
   provider: elasticbeanstalk
