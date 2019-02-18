@@ -7,7 +7,6 @@ before_install:
   - docker build -t jessietabilisma/kaagapai-test -f Dockerfile.dev .
 
 script:
-  - cd code/web
   - docker run jessietabilisma/kaagapai-test npm run test -- --coverage
 
 deploy:
