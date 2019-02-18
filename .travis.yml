@@ -4,7 +4,7 @@ services:
 
 before_install:
   - cd code/web/
-  - docker build -t jessietabilisma/kaagapai-test -f Dockerfile.test .
+  - docker build -t jessietabilisma/kaagapai-test -f Dockerfile.dev .
 
 script:
   - cd code/web
