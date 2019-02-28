@@ -6,11 +6,14 @@ const resolver = require('./graphql/resolvers/resolvers');
 
 const app = express();
 
-app.use('/graphql', expressGraphQL({
-  schema: schema,
-  rootValue: resolver,
-  graphiql: true //to be changed to false when in production
-}));
+app.use(
+  '/graphql',
+  expressGraphQL({
+    schema: schema,
+    rootValue: resolver,
+    graphiql: true //to be changed to false when in production
+  })
+);
 
 models.sequelize
   .sync()
@@ -20,5 +23,5 @@ models.sequelize
     });
   })
   .catch(err => {
-    console.log("Failed to run the server: " + err);
-  })
+    console.log('Failed to run the heheheh: ' + err);
+  });
