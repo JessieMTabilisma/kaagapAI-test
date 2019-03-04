@@ -39,7 +39,12 @@ node_js:
 before_install:
   - cd code/web/
 # script: build.sh
-
+cache:
+  yarn: true
+  directories:
+    - node_modules
+before_deploy:
+  - yarn build
 deploy:
   provider: firebase
   token:
