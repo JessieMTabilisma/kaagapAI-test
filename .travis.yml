@@ -32,25 +32,25 @@
 
 # # script:
 # #   - docker run jessietabilisma/kaagapai npm run test -- --coverage
-language: node_js
-node_js:
-  - "node"
+# language: node_js
+# node_js:
+#   - "node"
 
-before_install:
-  - cd code/web/
-# script: build.sh
-cache:
-  yarn: true
-  directories:
-    - node_modules
+# before_install:
+#   - cd code/web/
+# # script: build.sh
+# cache:
+#   yarn: true
+#   directories:
+#     - node_modules
 
-deploy:
-  provider: firebase
-  token:
-    secure: "$FIREBASE_TOKEN"
-  on:
-    branch: dev
-  project: "kaagapai"
+# deploy:
+#   provider: firebase
+#   token:
+#     secure: "$FIREBASE_TOKEN"
+#   on:
+#     branch: dev
+#   project: "kaagapai"
 # notifications:
 #   email:
 #     - 2164149@slu.edu.ph
@@ -60,3 +60,26 @@ deploy:
 #     - 2161745@slu.edu.ph
 #     - 2161436@slu.edu.ph
 #     - 2161794@slu.edu.ph
+language: node_js
+node_js: lts/*
+sudo: false
+before_install:
+- curl -o- -L https://yarnpkg.com/install.sh | bash -s -- --version 0.27.5
+- export PATH=$HOME/.yarn/bin:$PATH
+cache:
+  yarn: true
+install:
+- cd ./functions && yarn install && cd ..
+- cd ./client && yarn install && cd ..
+script:
+- cd ./client && yarn build && cd ..
+- cd ./client && yarn test && cd ..
+
+deploy:
+  skip_cleanup: true
+  provider: firebase
+  token:
+    secure: "$FIREBASE_TOKEN"
+  on:
+    branch: dev
+  project: "kaagapai"
