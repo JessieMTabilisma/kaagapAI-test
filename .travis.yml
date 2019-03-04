@@ -84,10 +84,9 @@ node_js: lts/*
 cache:
   directories:
     - node_modules
-    - functions/node_modules
 before_install:
   - npm install -g firebase-tools
-  - cd functions
+  - cd code/web/
   - npm install
   # - cd ..
 script:
@@ -99,3 +98,4 @@ after_success:
 branches:
   only:
     - dev
+  
