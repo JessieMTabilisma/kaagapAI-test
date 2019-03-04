@@ -36,9 +36,9 @@ language: node_js
 node_js:
   - "node"
 
-before_install:
-  - cd code/web/
-# script: build.sh
+# before_install:
+#   - cd code/web/
+script: build.sh
 
 deploy:
   provider: firebase
