@@ -70,7 +70,6 @@ cache:
   yarn: true
 install:
   - cd code/web/ && yarn install && cd ..
-  - cd code/web/ && yarn install && cd ..
 script:
   - cd code/web/ && yarn build && cd ..
   - cd code/web/ && yarn test && cd ..
