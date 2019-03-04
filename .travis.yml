@@ -69,10 +69,10 @@ before_install:
 cache:
   yarn: true
 install:
-  - cd code/web/ && yarn install && cd ..
+  - cd code/web/ && yarn install
 script:
-  - cd code/web/ && yarn build && cd ..
-  - cd code/web/ && yarn test && cd ..
+  - cd code/web/ && yarn build
+  - cd code/web/ && yarn test
 
 deploy:
   skip_cleanup: true
