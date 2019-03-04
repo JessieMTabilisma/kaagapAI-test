@@ -1,5 +1,6 @@
 {
   "projects": {
-    "kaagapai": "kaagapai"
+    "kaagapai": "kaagapai",
+    "default": "kaagapai"
   }
 }
