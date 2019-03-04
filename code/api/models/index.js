@@ -1,6 +1,6 @@
 const Sequelize = require('sequelize');
 
-const sequelize = new Sequelize('db_kaagapai', 'admin', 'adminkaagapai', {
+const sequelize = new Sequelize('kaagapai', 'admin', 'adminkaagapai', {
   dialect: 'mysql',
   host: 'kaagapai.com',
   port: '3306',

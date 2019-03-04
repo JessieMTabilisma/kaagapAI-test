@@ -1,23 +1,57 @@
-sudo: required
-services:
-  - docker
+# sudo: required
+# services:
+#   - docker
 
-before_install:
-  - cd code/web/
-  - docker build -t jessietabilisma/kaagapai-test -f Dockerfile.dev .
+# before_install:
+#   - cd code/web/
+#   - docker build -t jessietabilisma/kaagapai-test -f Dockerfile.dev .
 
+# script:
+#   - docker run jessietabilisma/kaagapai-test npm run test -- --coverage
+
+# deploy:
+#   provider: elasticbeanstalk
+#   region: "us-east-1"
+#   app: "kaagapAI"
+#   env: "Kaagapai-env-1"
+#   bucket_name: "elasticbeanstalk-us-east-1-647912191476"
+#   bucket_path: "kaagapAI"
+#   on:
+#     branch: master
+#   access_key_id: $AWS_ACCESS_KEY
+#   secret_access_key:
+#     secure: "$AWS_SECRET_ACCESS_KEY"
+
+# sudo: required
+# services:
+#   - docker
+
+# before_install:
+#   - cd code/web/
+#   - docker build -t jessietabilisma/kaagapai .
+
+# # script:
+# #   - docker run jessietabilisma/kaagapai npm run test -- --coverage
+language: node_js
+node_js:
+  - "node"
+  
 script:
-  - docker run jessietabilisma/kaagapai-test npm run test -- --coverage
+  -
 
 deploy:
-  provider: elasticbeanstalk
-  region: "us-east-1"
-  app: "kaagapAI"
-  env: "Kaagapai-env-1"
-  bucket_name: "elasticbeanstalk-us-east-1-647912191476"
-  bucket_path: "kaagapAI"
+  provider: firebase
+  token:
+    secure: "$FIREBASE_TOKEN"
   on:
-    branch: master
-  access_key_id: $AWS_ACCESS_KEY
-  secret_access_key:
-    secure: "$AWS_SECRET_ACCESS_KEY"
+    branch: dev
+  project: "kaagapai"
+notifications:
+  email:
+    - 2164149@slu.edu.ph
+    - 2161495@slu.edu.ph
+    - 2160809@slu.edu.ph
+    - 2160120@slu.edu.ph
+    - 2161745@slu.edu.ph
+    - 2161436@slu.edu.ph
+    - 2161794@slu.edu.ph
