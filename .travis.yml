@@ -79,12 +79,12 @@
 #     branch: dev
 #   project: "kaagapai"
 language: node_js
-node_js:
-  - latest
+node_js: lts/*
+
 cache:
   directories:
-  - node_modules
-  - functions/node_modules
+    - node_modules
+    - functions/node_modules
 before_install:
   - npm install -g firebase-tools
   - cd functions
