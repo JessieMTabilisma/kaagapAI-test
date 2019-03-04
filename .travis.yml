@@ -64,16 +64,16 @@ language: node_js
 node_js: lts/*
 sudo: false
 before_install:
-- curl -o- -L https://yarnpkg.com/install.sh | bash -s -- --version 0.27.5
-- export PATH=$HOME/.yarn/bin:$PATH
+  - curl -o- -L https://yarnpkg.com/install.sh | bash -s -- --version 0.27.5
+  - export PATH=$HOME/.yarn/bin:$PATH
 cache:
   yarn: true
 install:
-- cd ./functions && yarn install && cd ..
-- cd ./client && yarn install && cd ..
+  - cd code/web/ && yarn install && cd ..
+  - cd code/web/ && yarn install && cd ..
 script:
-- cd ./client && yarn build && cd ..
-- cd ./client && yarn test && cd ..
+  - cd code/web/ && yarn build && cd ..
+  - cd code/web/ && yarn test && cd ..
 
 deploy:
   skip_cleanup: true
