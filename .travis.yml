@@ -98,4 +98,6 @@ after_success:
 on:
   branch:
     - dev
+    - test
   project: "kaagapai"
+
