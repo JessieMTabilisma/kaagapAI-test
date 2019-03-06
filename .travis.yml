@@ -38,3 +38,6 @@ matrix:
       api_key:
         secure: "$HEROKU_TOKEN"
       app: kaagapai-dev
+      on:
+        branch:
+          - dev
