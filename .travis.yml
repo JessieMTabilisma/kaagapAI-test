@@ -23,12 +23,12 @@ matrix:
     - language: ruby
       cache:
         - bundler
-      before_script:
-        - cd code/api
-        - sequelize db:create
-        - sequelize db:migrate:undo:all
-        - sequelize db:migrate
-        - sequelize db:seed:all
+      # before_script:
+      #   - cd code/api
+      #   - sequelize db:create
+      #   - sequelize db:migrate:undo:all
+      #   - sequelize db:migrate
+      #   - sequelize db:seed:all
       provider: heroku
       api_key:
         secure: "$HEROKU_TOKEN"
