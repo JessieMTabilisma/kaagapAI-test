@@ -95,9 +95,23 @@ after_success:
   - travis_wait 40 npm run build
   - firebase use default --token $FIREBASE_TOKEN
   - travis_wait firebase deploy -m "Travis deploy" --non-interactive --token $FIREBASE_TOKEN
-on:
-  branch:
-    - dev
-    - test
+  
+# on:
+#   branch:
+#     - dev
+#     - test
+#     - master
+#   project: "kaagapai"
+deploy:
+- provider: firebase
+  on:
+    branch: dev
   project: "kaagapai"
-
+- provider: firebase
+  on:
+    branch: test
+  project: "kaagapai-staging"
+- provider: firebase
+  on: 
+    branch: master
+  project: "kaagapai"
