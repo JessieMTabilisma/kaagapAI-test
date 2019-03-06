@@ -22,6 +22,7 @@ matrix:
         project: kaagapai
     - language: node_js
       node_js: lts/*
+      services: mysql
       cache:
         directories:
           - node_modules
