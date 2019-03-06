@@ -25,8 +25,10 @@ matrix:
         - bundler
       before_script:
         - cd code/api
-        - bundle exec rake db:create
-        - bundle exec rake db:migrate
+        - sequelize db:create
+        - sequelize db:migrate:undo:all
+        - sequelize db:migrate
+        - sequelize db:seed:all
       provider: heroku
       api_key:
         secure: "$HEROKU_TOKEN"
