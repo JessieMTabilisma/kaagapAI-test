@@ -20,15 +20,21 @@ matrix:
         branch:
           - dev
         project: kaagapai
-    - language: ruby
+    - language: node_js
+      node_js: lts/*
       cache:
-        - bundler
-      # before_script:
-      #   - cd code/api
-      #   - sequelize db:create
-      #   - sequelize db:migrate:undo:all
-      #   - sequelize db:migrate
-      #   - sequelize db:seed:all
+        directories:
+          - node_modules
+      before_install:
+        - npm install -g sequelize-cli
+        - cd code/api
+        - npm install
+      script:
+        - npm test
+        - sequelize db:create
+        - sequelize db:migrate:undo:all
+        - sequelize db:migrate
+        - sequelize db:seed:all
       provider: heroku
       api_key:
         secure: "$HEROKU_TOKEN"
