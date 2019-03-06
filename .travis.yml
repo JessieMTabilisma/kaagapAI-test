@@ -1,115 +1,33 @@
-# sudo: required
-# services:
-#   - docker
-
-# before_install:
-#   - cd code/web/
-#   - docker build -t jessietabilisma/kaagapai-test -f Dockerfile.dev .
-
-# script:
-#   - docker run jessietabilisma/kaagapai-test npm run test -- --coverage
-
-# deploy:
-#   provider: elasticbeanstalk
-#   region: "us-east-1"
-#   app: "kaagapAI"
-#   env: "Kaagapai-env-1"
-#   bucket_name: "elasticbeanstalk-us-east-1-647912191476"
-#   bucket_path: "kaagapAI"
-#   on:
-#     branch: master
-#   access_key_id: $AWS_ACCESS_KEY
-#   secret_access_key:
-#     secure: "$AWS_SECRET_ACCESS_KEY"
-
-# sudo: required
-# services:
-#   - docker
-
-# before_install:
-#   - cd code/web/
-#   - docker build -t jessietabilisma/kaagapai .
-
-# # script:
-# #   - docker run jessietabilisma/kaagapai npm run test -- --coverage
-# language: node_js
-# node_js:
-#   - "node"
-
-# before_install:
-#   - cd code/web/
-# # script: build.sh
-# cache:
-#   yarn: true
-#   directories:
-#     - node_modules
-
-# deploy:
-#   provider: firebase
-#   token:
-#     secure: "$FIREBASE_TOKEN"
-#   on:
-#     branch: dev
-#   project: "kaagapai"
-# notifications:
-#   email:
-#     - 2164149@slu.edu.ph
-#     - 2161495@slu.edu.ph
-#     - 2160809@slu.edu.ph
-#     - 2160120@slu.edu.ph
-#     - 2161745@slu.edu.ph
-#     - 2161436@slu.edu.ph
-#     - 2161794@slu.edu.ph
-# language: node_js
-# node_js: lts/*
-# sudo: true
-# cache:
-#   yarn: true
-# install:
-#   - cd code/web/ && npm install -g firebase tools
-# script:
-#   - echo "Script"
-
-# deploy:
-#   skip_cleanup: true
-#   provider: firebase
-#   token:
-#     secure: "$FIREBASE_TOKEN"
-#   on:
-#     branch: dev
-#   project: "kaagapai"
-language: node_js
-node_js: lts/*
-
-cache:
-  directories:
-    - node_modules
-before_install:
-  - npm install -g firebase-tools
-  - cd code/web/
-  - npm install
-  # - cd ..
-script:
-  - npm test
-after_success:
-  - travis_wait 40 npm run build
-  - firebase use default --token $FIREBASE_TOKEN
-  - travis_wait firebase deploy -m "Travis deploy" --non-interactive --token $FIREBASE_TOKEN
-  
-on:
-  branch:
-    - dev
-  project: "kaagapai"
-# deploy:
-# - provider: firebase
-#   on:
-#     branch: dev
-#   project: "kaagapai"
-# - provider: firebase
-#   on:
-#     branch: test
-#   project: "kaagapai-staging"
-# - provider: firebase
-#   on: 
-#     branch: master
-#   project: "kaagapai"
+sudo: required
+matrix:
+  include:
+    - language: node_js
+      node_js: lts/*
+      cache:
+        directories:
+          - node_modules
+      before_install:
+        - npm install -g firebase-tools
+        - cd code/web/
+        - npm install
+      script:
+        - npm test
+      after_success:
+        - travis_wait 40 npm run build
+        - firebase use default --token $FIREBASE_TOKEN
+        - travis_wait firebase deploy -m "Travis deploy" --non-interactive --token $FIREBASE_TOKEN
+      on:
+        branch:
+          - dev
+        project: kaagapai
+    - language: ruby
+      cache:
+        - bundler
+      before_script:
+        - cd code/api
+        - bundle exec rake db:create
+        - bundle exec rake db:migrate
+      provider: heroku
+      api_key:
+        secure: "$HEROKU_TOKEN"
+      app: kaagapai-dev

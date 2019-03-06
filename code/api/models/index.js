@@ -1,12 +1,13 @@
 const Sequelize = require('sequelize');
 
-const sequelize = new Sequelize('kaagapai', 'admin', 'adminkaagapai', {
+const sequelize = new Sequelize('dbkaagapai', 'admin', 'adminkaagapai', {
   dialect: 'mysql',
-  host: 'kaagapai.com',
+  host: '35.234.9.118',
   port: '3306',
   operatorsAliases: false,
   logging: false
 });
+
 
 const models = {
   Practitioner: sequelize.import('./practitioner'),
