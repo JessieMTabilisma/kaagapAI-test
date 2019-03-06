@@ -27,14 +27,14 @@ matrix:
         directories:
           - node_modules
       before_install:
-        - npm install -g sequelize-cli
+        # - npm install -g sequelize-cli
         - cd code/api
         - npm install
-      script:
-        - sequelize db:create
-        - sequelize db:migrate:undo:all
-        - sequelize db:migrate
-        - sequelize db:seed:all
+      # script:
+      #   - sequelize db:create
+      #   - sequelize db:migrate:undo:all
+      #   - sequelize db:migrate
+      #   - sequelize db:seed:all
       provider: heroku
       api_key:
         secure: "$HEROKU_TOKEN"
