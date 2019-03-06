@@ -30,7 +30,6 @@ matrix:
         - cd code/api
         - npm install
       script:
-        - npm test
         - sequelize db:create
         - sequelize db:migrate:undo:all
         - sequelize db:migrate
