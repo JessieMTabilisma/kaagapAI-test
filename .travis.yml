@@ -32,7 +32,7 @@ matrix:
       deploy:
         provider: heroku
         api_key:
-          secure: "$HEROKU_TOKEN"
+          secure: $HEROKU_TOKEN
         app:
           dev: kaagapai-dev
         on:
