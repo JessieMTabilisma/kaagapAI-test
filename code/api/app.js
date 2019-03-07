@@ -23,5 +23,5 @@ models.sequelize
     });
   })
   .catch(err => {
-    console.log('Failed to run the server: ' + err);
+    console.log('Failed to run the hehehasdassasaasdeh: ' + err);
   });
