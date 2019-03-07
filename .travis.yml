@@ -1,41 +1,41 @@
 sudo: required
 matrix:
   include:
-    - language: node_js
-      node_js: lts/*
-      cache:
-        directories:
-          - node_modules
-      before_install:
-        - npm install -g firebase-tools
-        - cd code/web/
-        - npm install
-      script:
-        - npm test
-      after_success:
-        - travis_wait 40 npm run build
-        - firebase use default --token $FIREBASE_TOKEN
-        - travis_wait firebase deploy -m "Travis deploy" --non-interactive --token $FIREBASE_TOKEN
+  - language: node_js
+    node_js: lts/*
+    cache:
+      directories:
+      - node_modules
+    before_install:
+    - npm install -g firebase-tools
+    - cd code/web/
+    - npm install
+    script:
+    - npm test
+    after_success:
+    - travis_wait 40 npm run build
+    - firebase use default --token $FIREBASE_TOKEN
+    - travis_wait firebase deploy -m "Travis deploy" --non-interactive --token $FIREBASE_TOKEN
+    on:
+      branch:
+      - dev
+      project: kaagapai
+  - language: node_js
+    node_js: lts/*
+    services: mysql
+    cache:
+      directories:
+      - node_modules
+    before_install:
+    - cd code/api
+    script: 'true'
+    deploy:
+      provider: heroku
+      api_key:
+        secure: i4BUzrGXmYOd5CDXWqj7PQwt9pD+H65ryQpmqR5IM3JKao/v30mbZa1BmNyWrMBQRQ7ZFkl19iFADxz3oFXQirDizJTY19JIvUOglhb/bhwv1czY86h/3inplDF0pRyAIPJuGSfT3zeOg8xXvAt6FmHUWXJLumNgZbIj355Z4lUUhcAiRsp3dSOje40J3WAr9yaZ2tfj91c5M7hcZIZngSNHmWdxFAOOxA0HCiEmvTNU9Rc7LgjeHMWsJXIg+WhcfaOzeBlHS4Ykp0eALlErfJu8osdwEGIzBie4uUBm/xsTtvwNRTBekUThHC28+LaELJCKLS3usqX8gZIobR6D6s/IMOnE7jl7tL2amunjhwsWPX238Hr2ZvqvD3Hv8qUSOcRihKwSdRhUUFyhg9E53CXaoXnd3GL8mLjYwhZmnhBJKsGG0zHc6uX8Yw51lvlQpWA60mtcN8tXbXeonAVT7PNzIaQGNayF38jAU280ScBSqonwKU8SuP6H6oKEMESr94qkDfzB7FHbBY43DKMLBrAZqITRa+hHv3edPWl+JaKpX8LvmfKexr71ord0+L2LctN54dt0kYrVmuzFaA66UMeyrPwtVENT2LHiSObJAkA3/PNdfb9AaWr4xGd211IWlQOsbG86HVRUo9EvBXPwJOziV/c+hKSVVxZHQ2i+tW8=
+      app: 
+        dev: kaagapai-dev
       on:
-        branch:
+        branches:
+          only:
           - dev
-        project: kaagapai
-    - language: node_js
-      node_js: lts/*
-      services: mysql
-      cache:
-        directories:
-          - node_modules
-      before_install:
-        - cd code/api
-      script: "true"
-      deploy:
-        provider: heroku
-        api_key:
-          secure: $HEROKU_TOKEN
-        app:
-          dev: kaagapai-dev
-        on:
-          branches:
-            only:
-              - dev
