@@ -29,10 +29,11 @@ matrix:
       before_install:
         - cd code/api
       script: "true"
-      provider: heroku
-      api_key:
-        secure: "$HEROKU_TOKEN"
-      app: kaagapai-dev
-      on:
-        branch:
-          - dev
+      deploy:
+        provider: heroku
+        api_key:
+          secure: "$HEROKU_TOKEN"
+        app: kaagapai-dev
+        on:
+          branch:
+            - dev
