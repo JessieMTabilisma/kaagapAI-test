@@ -36,7 +36,7 @@ matrix:
         app:
           dev: kaagapai-dev
         on:
-          repo: prometheus-tech/kaagapai
+          repo: JessieMTabilisma/kaagapai-test
           branches:
             only:
               - dev
