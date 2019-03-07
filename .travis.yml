@@ -36,4 +36,6 @@ matrix:
         app:
           dev: kaagapai-dev
         on:
-          branch: development
+          branches:
+            only:
+              - dev
