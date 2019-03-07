@@ -33,6 +33,7 @@ matrix:
         provider: heroku
         api_key:
           secure: "$HEROKU_TOKEN"
-        app: kaagapai-dev
+        app:
+          dev: kaagapai-dev
         on:
-          branch: dev
+          branch: development
