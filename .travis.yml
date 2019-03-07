@@ -35,5 +35,4 @@ matrix:
           secure: "$HEROKU_TOKEN"
         app: kaagapai-dev
         on:
-          branch:
-            - dev
+          branch: dev
