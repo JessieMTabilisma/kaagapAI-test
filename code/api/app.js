@@ -1,17 +1,22 @@
 const express = require('express');
 const expressGraphQL = require('express-graphql');
+const dotenv = require('dotenv').config();
 const models = require('./models');
 const schema = require('./graphql/schemas/schema');
 const resolver = require('./graphql/resolvers/resolvers');
+const cors = require('cors');
+
 
 const app = express();
+
+app.use(cors());
 
 app.use(
   '/graphql',
   expressGraphQL({
     schema: schema,
     rootValue: resolver,
-    graphiql: true //to be changed to false when in production
+    graphiql: process.env.DB_HOST_DEV
   })
 );
 

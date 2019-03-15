@@ -16,22 +16,21 @@ const typeDefs = `
     date_added: Date!
     last_opened: Date
     p_id: Int!
+    no_of_sessions:Int
   }
 
   type Query { 
-    getClients(p_id: Int!): JSON!
+    getClients(p_id: Int!): [Client]!
+
+    getClient(c_id: Int!): Client!
   }
 
   type Mutation {
-    addClient(fname: String!, lname: String!, gender:[Gender!]!, birthdate: Date!, p_id: Int!): JSON!
+    addClient(fname: String!, lname: String!, gender:[Gender!]!, birthdate: Date!, p_id: Int!): Client!
 
-    removeClient(c_id: Int!): JSON!
+    deleteClient(c_id: Int!): Client!
 
-    updateClientName(c_id: Int!, fname: String!, lname: String!): JSON!
-
-    updateClientBirthdate(c_id: Int!, birthdate: Date!): JSON!
-
-    updateClientLastOpened(c_id: Int!): JSON!
+    updateClientInformation(c_id: Int!, fname: String!, lname: String!, birthdate: Date!, gender:[Gender!]!): Client!
   }
-`
+`;
 module.exports = typeDefs;
