@@ -24,7 +24,7 @@ models.sequelize
   .sync()
   .then(result => {
     app.listen(process.env.PORT || 4000, () => {
-      console.log('Server is running at port 4000');
+      console.log('Server is running at port 4001');
     });
   })
   .catch(err => {
