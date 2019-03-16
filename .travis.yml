@@ -1,43 +1,44 @@
 sudo: required
 matrix:
   include:
-    - language: node_js
-      node_js: lts/*
-      cache:
-        directories:
-          - node_modules
-      before_install:
-        - npm install -g firebase-tools
-        - cd code/web/
-        - npm install
-      script:
-        - npm test
-      after_success:
-        - travis_wait 40 npm run build
-        - firebase use default --token $FIREBASE_TOKEN
-        - travis_wait firebase deploy -m "Travis deploy" --non-interactive --token $FIREBASE_TOKEN
+  - language: node_js
+    node_js: lts/*
+    cache:
+      directories:
+      - node_modules
+    before_install:
+    - npm install -g firebase-tools
+    - cd code/web/
+    - npm install
+    script:
+    - npm test
+    after_success:
+    - travis_wait 40 npm run build
+    - firebase use default --token $FIREBASE_TOKEN
+    - travis_wait firebase deploy -m "Travis deploy" --non-interactive --token $FIREBASE_TOKEN
+    on:
+      branch:
+      - dev
+      project: kaagapai
+  - language: node_js
+    node_js: lts/*
+    services: mysql
+    cache:
+      directories:
+      - node_modules
+    before_install:
+    - cd code/api
+    - npm install
+    script: 'true'
+    deploy:
+      provider: heroku
+      api_key:
+        secure: qZ2/JTS/OqPiyHCkQWCMlgc3mNNJ6wtfPSizas+WIjv5qN7Dxsrx8AaJlQ9A/Q1eVVOfD1OtFhQwU4Jh3SirZ50p/jswLGUlmIhYwSxEzFwb4IpOo2Nu6JahwfiW7+wsESQla5FPJ+2H8ZTGfW7rIH2/dh3gDmVm6u/33mmHTig1MuPlc+gvUBIRtJ27extbZbYgwzXCUHX1jP6FO+vohibY0Xy67GB2HbazjhA2v+YCL1uCVD9DEKMC+11S2WvxsNXpxkUvaY4iErlQRgR3pGSJbN9AO94rO3BvXxGpGpmxZEvpVUm+yIgDh4VOxmVnzEPperq7hMfxXRzVs8Vg6DitsL1YJDbGXgfmDaFMAwDm8pWAaRTDw96lV8I7R2x38C6glpEV3gjkD4/J1uq9MoFGq1NsrgywqEb93rAn7aExujUelJcDYTjgDV38j/UB9iaEcZjRyy78YLlLj5KeOnHgmM1Sot2TDXHRARseJOb8+4yHiUkn+NNSbwJWG68S/REYrvnMxQRS0GLl+85bDSWHOcQ90QUWfDQbEr/shiCLtdgSlj0SE8FQp/EbdnFD9By7KWw9zJRZq5XlGK0XxSF9vB00erl+GYERUQu+r3Y5geLPrfooi/q1CkqQH4A3Y86VqO0KJ/n9tZpNxe4hnnPVCsnR/hIboQM4KTIGEDQ=
+      app:
+        dev: kaagapai-test-dev
       on:
-        branch:
+        repo: JessieMTabilisma/kaagapAI-test
+        branches:
+          only:
           - dev
-        project: kaagapai
-    - language: node_js
-      node_js: lts/*
-      services: mysql
-      cache:
-        directories:
-          - node_modules
-      before_install:
-        - cd code/api
-        - npm install
-      script: "true"
-      deploy:
-        provider: heroku
-        api_key:
-          secure: AxvhJ5fKDyE+z+LxTznP6fHmhOjEMTmPPgoD6CLPto5k5q+m0xGAe2NfMz7D6LD46ccykSZPgjzQ9jJ6OxHoWigfCREsamsp+z/hNKIdpDqvNs8ineziQoXpXnvSVgV0aUek4n7nR4ttGf/TG93/2SKRm4MMEUmIRgkGeDL1wbEe8VsPtEEM3aENuGo/nSuAbkKaOCK7sRTqzP+F+HaJZKEAcwY5d/zq7E1vig/kTV3JIJxmw5Uei0g1GJML74TC/g9UK++Uiizn0wNPaw09JyRKNR6lveh+X2PPteLTFtiA0Q0jB33aWaZePhGck/bmJ6FvuSDsTv2eesx4398JYWWYmyIv0IO1wPWVtNVwX6Qq3xO9wYbB3Wa4TFbBH1cpR+i9aajFJXkkXi87JRIIFAU60S8m4gt6Jq1N7jrv3vot0PEoNqdT6gQNbFSQDKeyOKYT67UOLXN3FUd5W2j+wZjkVSpCrp5KLXdXFw8WMZjJOKXsu/qK5bX+52zTnMJ7y+10Yv9STziqPRGexXQj88gBIbvRebtCrV+ypCewONtZ1P9Ywj9cxeuv2BRwqm1g2YRERnq2Ddm7wliCf3OhfStH0NwByZOLYB515gj9B/WUXjwGLhcIWWatlXFMVtyu7v1H6icN43xNmymox8vIzGoLo9s2POy7I8YD/WFIc+M=
-        app:
-          dev: kaagapai-test-dev
-        on:
-          repo: JessieMTabilisma/kaagapAI-test
-          branches:
-            only:
-              - dev
+
