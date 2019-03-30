@@ -24,7 +24,7 @@ const configurations = {
   }
 };
 
-const environment = 'test'; // Change this Jessie
+const environment = process.env.NODE_ENV || 'test'; // Change this Jessie
 const config = configurations[environment];
 
 const apollo = new ApolloServer({
