@@ -22,12 +22,14 @@ import DialogContent from '@material-ui/core/DialogContent';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import Button from '@material-ui/core/Button';
 import Grid from '@material-ui/core/Grid';
-import TextField from '@material-ui/core/TextField';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import FormControl from '@material-ui/core/FormControl';
 import FormLabel from '@material-ui/core/FormLabel';
 import Radio from '@material-ui/core/Radio';
 import RadioGroup from '@material-ui/core/RadioGroup';
+
+import { ValidatorForm, TextValidator } from 'react-material-ui-form-validator';
+import { cloneDeep } from 'apollo-utilities';
 
 const styles = theme => ({
   floatingButton: {
@@ -44,9 +46,11 @@ const styles = theme => ({
     zIndex: 2
   },
   extendedButton: {
-    backgroundColor: lightBlue[600],
+    background: '-webkit-linear-gradient(to right, #8f94fb, #4e54c8)',
+    background: 'linear-gradient(to right, #8f94fb, #4e54c8)',
     color: '#ffffff',
     textTransform: 'capitalize',
+    borderRadius: '5px',
     fontSize: 16,
     '&:hover': {
       backgroundColor: lightBlue[700],
@@ -74,10 +78,13 @@ class NewClientDialog extends Component {
       p_id: parseInt(localStorage.getItem(USER_ID)),
       fname: '',
       lname: '',
-      gender: '',
+      gender: 'M',
       birthdate: '',
       isDialogOpened: false
     };
+
+    // Needed for validation
+    this.inputChangeHandler = this.inputChangeHandler.bind(this);
   }
 
   inputChangeHandler = e => {
@@ -94,11 +101,25 @@ class NewClientDialog extends Component {
     this.setState({
       fname: '',
       lname: '',
-      gender: '',
+      gender: 'M',
       birthdate: '',
       isDialogOpened: false
     });
   };
+
+  /**
+   * Custom validators
+   */
+  componentWillMount() {
+    const letters = '^[A-Za-z\\s-]+$';
+    ValidatorForm.addValidationRule('isLetter', value => {
+      return value.match(letters);
+    });
+    const date = '^([12]\\d{3}-(0[1-9]|1[0-2])-(0[1-9]|[12]\\d|3[01]))$';
+    ValidatorForm.addValidationRule('isDate', value => {
+      return value.match(date);
+    });
+  }
 
   render() {
     const { classes, fullScreen } = this.props;
@@ -138,14 +159,15 @@ class NewClientDialog extends Component {
         <Mutation
           mutation={ADD_CLIENT}
           update={(cache, { data: { addClient } }) => {
-            const { getClients } = cache.readQuery({
-              query: CLIENTS,
-              variables: {
-                p_id: parseInt(localStorage.getItem(USER_ID))
-              }
-            });
-
-            getClients.push(addClient);
+            const { clients } = cloneDeep(
+              cache.readQuery({
+                query: CLIENTS,
+                variables: {
+                  p_id: parseInt(localStorage.getItem(USER_ID))
+                }
+              })
+            );
+            clients.push(addClient);
 
             cache.writeQuery({
               query: CLIENTS,
@@ -153,7 +175,7 @@ class NewClientDialog extends Component {
                 p_id: parseInt(localStorage.getItem(USER_ID))
               },
               data: {
-                getClients
+                clients
               }
             });
           }}
@@ -178,104 +200,131 @@ class NewClientDialog extends Component {
                 fullScreen={fullScreen}
                 maxWidth="sm"
               >
-                <DialogTitle onClose={this.closeNewClientDialogHandler}>
-                  New Client
-                </DialogTitle>
-                <DialogContent>
-                  <Grid container spacing={16}>
-                    <Grid item xs={12}>
-                      <Grid container spacing={8}>
-                        <Grid item xs={12} sm={6}>
-                          <TextField
-                            label="First name"
-                            className={classes.dense}
-                            margin="dense"
-                            variant="outlined"
-                            fullWidth
-                            name="fname"
-                            onChange={this.inputChangeHandler}
-                            value={fname}
-                          />
-                        </Grid>
-                        <Grid item xs={12} sm={6}>
-                          <TextField
-                            label="Last name"
-                            className={classes.dense}
-                            margin="dense"
-                            variant="outlined"
-                            fullWidth
-                            name="lname"
-                            onChange={this.inputChangeHandler}
-                            value={lname}
-                          />
+                <ValidatorForm
+                  onSubmit={() => {
+                    addClient({
+                      variables: {
+                        p_id: p_id,
+                        fname: fname.trim(),
+                        lname: lname.trim(),
+                        gender: gender,
+                        birthdate: birthdate
+                      }
+                    });
+
+                    this.closeNewClientDialogHandler();
+                  }}
+                >
+                  <DialogTitle>New Client</DialogTitle>
+                  <DialogContent>
+                    <Grid container spacing={16}>
+                      <Grid item xs={12}>
+                        <Grid container spacing={8}>
+                          <Grid item xs={12} sm={6}>
+                            <TextValidator
+                              label="First name"
+                              value={fname}
+                              variant="outlined"
+                              fullWidth
+                              name="fname"
+                              onChange={this.inputChangeHandler}
+                              margin="dense"
+                              validators={[
+                                'required',
+                                'minStringLength: ' + 2,
+                                'maxStringLength:' + 20,
+                                'isLetter'
+                              ]}
+                              errorMessages={[
+                                'This field is required',
+                                'First name might be too short',
+                                'First name must be less than 20 characters',
+                                'Please do not include numbers and/or special characters'
+                              ]}
+                            />
+                          </Grid>
+                          <Grid item xs={12} sm={6}>
+                            <TextValidator
+                              label="Last name"
+                              value={lname}
+                              variant="outlined"
+                              fullWidth
+                              name="lname"
+                              onChange={this.inputChangeHandler}
+                              margin="dense"
+                              validators={[
+                                'required',
+                                'minStringLength: ' + 2,
+                                'maxStringLength:' + 20,
+                                'isLetter'
+                              ]}
+                              errorMessages={[
+                                'This field is required',
+                                'Last name might be too short',
+                                'Last name must be less than 20 characters',
+                                'Please do not include numbers and/or special characters'
+                              ]}
+                            />
+                          </Grid>
                         </Grid>
                       </Grid>
-                    </Grid>
-                    <Grid item xs={12} className={classes.inputGroup}>
-                      <FormControl component="fieldset">
-                        <FormLabel component="legend">Gender</FormLabel>
-                        <RadioGroup
-                          className={classes.group}
-                          row
-                          name="gender"
+                      <Grid item xs={12} className={classes.inputGroup}>
+                        <FormControl component="fieldset">
+                          <FormLabel component="legend">Gender</FormLabel>
+                          <RadioGroup
+                            className={classes.group}
+                            row
+                            name="gender"
+                            value={gender}
+                            onChange={this.inputChangeHandler}
+                            validators={'required'}
+                          >
+                            <FormControlLabel
+                              value="M"
+                              control={<Radio color="primary" />}
+                              label="Male"
+                              labelPlacement="end"
+                            />
+                            <FormControlLabel
+                              value="F"
+                              control={<Radio color="primary" />}
+                              label="Female"
+                              labelPlacement="end"
+                            />
+                          </RadioGroup>
+                        </FormControl>
+                      </Grid>
+                      <Grid item xs={12}>
+                        <TextValidator
+                          type="date"
+                          label="Birthdate"
+                          variant="outlined"
+                          InputLabelProps={{
+                            shrink: true
+                          }}
+                          name="birthdate"
+                          value={birthdate}
+                          fullWidth
                           onChange={this.inputChangeHandler}
-                          value={gender}
-                        >
-                          <FormControlLabel
-                            value="M"
-                            control={<Radio color="primary" />}
-                            label="Male"
-                            labelPlacement="end"
-                          />
-                          <FormControlLabel
-                            value="F"
-                            control={<Radio color="primary" />}
-                            label="Female"
-                            labelPlacement="end"
-                          />
-                        </RadioGroup>
-                      </FormControl>
+                          margin="dense"
+                          validators={['required', 'isDate']}
+                          errorMessages={[
+                            'This field is required',
+                            'Not a valid date'
+                          ]}
+                        />
+                      </Grid>
                     </Grid>
-                    <Grid item xs={12}>
-                      <TextField
-                        label="Birthdate"
-                        type="date"
-                        variant="outlined"
-                        InputLabelProps={{
-                          shrink: true
-                        }}
-                        fullWidth
-                        name="birthdate"
-                        onChange={this.inputChangeHandler}
-                        value={birthdate}
-                      />
-                    </Grid>
-                  </Grid>
-                </DialogContent>
-                <DialogActions>
-                  <Button onClick={this.closeNewClientDialogHandler}>
-                    Cancel
-                  </Button>
-                  <Button
-                    onClick={() => {
-                      addClient({
-                        variables: {
-                          p_id: p_id,
-                          fname: fname,
-                          lname: lname,
-                          gender: gender,
-                          birthdate: birthdate
-                        }
-                      });
-
-                      this.closeNewClientDialogHandler();
-                    }}
-                    color="primary"
-                    autoFocus
-                  >
-                    Add Client
-                  </Button>
-                </DialogActions>
+                  </DialogContent>
+                  <DialogActions>
+                    <Button onClick={this.closeNewClientDialogHandler}>
+                      Cancel
+                    </Button>
+                    <Button type="submit" color="primary" autoFocus>
+                      Add Client
+                    </Button>
+                  </DialogActions>
+                </ValidatorForm>
               </Dialog>
             );
           }}

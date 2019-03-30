@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
@@ -8,13 +8,17 @@ import Menu from '@material-ui/core/Menu';
 import { withStyles } from '@material-ui/core/styles';
 import AccountCircle from '@material-ui/icons/AccountCircle';
 import MoreIcon from '@material-ui/icons/MoreVert';
+import Typography from '@material-ui/core/Typography';
+import blueGrey from '@material-ui/core/colors/blueGrey';
+import 'typeface-overpass';
 
-import Logo from '../../../assets/logo.svg';
+import Logo from '../../../assets/kaagapai-logo.svg';
 
 const styles = theme => ({
   root: {
     width: '100%',
-    background: 'white'
+    background: 'white',
+    boxShadow: '0 2px 3px rgba(0,0,0,0.16), 0 1px 2px rgba(0,0,0,0.23)'
   },
   grow: {
     flexGrow: 1
@@ -22,6 +26,9 @@ const styles = theme => ({
   menuButton: {
     marginLeft: -12,
     marginRight: 20
+  },
+  nameLogo: {
+    color: blueGrey[600]
   },
   logo: {
     margin: 10,
@@ -42,7 +49,7 @@ const styles = theme => ({
   }
 });
 
-class Header extends React.Component {
+class Header extends Component {
   state = {
     anchorEl: null,
     mobileMoreAnchorEl: null
@@ -104,7 +111,7 @@ class Header extends React.Component {
 
     return (
       <div className={classes.root}>
-        <AppBar position="static" className={classes.root} elevation={4}>
+        <AppBar position="fixed" className={classes.root}>
           <Toolbar>
             <IconButton
               className={classes.menuButton}
@@ -112,6 +119,9 @@ class Header extends React.Component {
               aria-label="Open drawer"
             />
             <img src={Logo} className={classes.logo} alt="kaagapAI" />
+            <Typography variant="h6" className={classes.nameLogo} noWrap>
+              kaagapAI
+            </Typography>
             <div className={classes.grow} />
             <div className={classes.sectionDesktop}>
               <IconButton

@@ -20,6 +20,7 @@ import { withStyles } from '@material-ui/core/styles';
 import classNames from 'classnames';
 import { Typography } from '@material-ui/core';
 import Slide from '@material-ui/core/Slide';
+import { cloneDeep } from 'apollo-utilities';
 
 const styles = theme => ({
   dense: {
@@ -87,19 +88,17 @@ class DeleteClientDialog extends Component {
             }
           }
         ) => {
-          const getClientsQueryParams = {
+          const clientsQueryParams = {
             query: CLIENTS,
             variables: { p_id: parseInt(localStorage.getItem(USER_ID)) }
           };
 
-          const { getClients } = cache.readQuery(getClientsQueryParams);
+          const { clients } = cloneDeep(cache.readQuery(clientsQueryParams));
 
           cache.writeQuery({
-            ...getClientsQueryParams,
+            ...clientsQueryParams,
             data: {
-              getClients: getClients.filter(
-                c => parseInt(c.c_id) !== parseInt(c_id)
-              )
+              clients: clients.filter(c => parseInt(c.c_id) !== parseInt(c_id))
             }
           });
 
