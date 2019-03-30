@@ -24,7 +24,7 @@ const configurations = {
   }
 };
 
-const environment = 'development'; // Change this Jessie
+const environment = 'test'; // Change this Jessie
 const config = configurations[environment];
 
 const apollo = new ApolloServer({
