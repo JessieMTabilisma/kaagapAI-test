@@ -52,7 +52,7 @@ models.sequelize
   .then(res => {
     server.listen({ port: config.port }, () => {
       console.log(
-        '🚀  Server ready ats',
+        '🚀  Server ready at',
         `http${config.ssl ? 's' : ''}://${config.hostname}:${config.port}${
           apollo.graphqlPath
         }`
