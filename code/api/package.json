@@ -5,14 +5,12 @@
   "main": "app.js",
   "scripts": {
     "clean": "rm -rf build && mkdir build",
-    "build-server": "babel -d ./build",
-    "build": "npm run clean && npm run build-server",
     "setup": "npm run setup:install && npm run setup:db",
     "setup:install": "npm install",
     "setup:db": "npm run db:migrate && npm run db:seed",
     "db:migrate": "./node_modules/.bin/sequelize db:migrate",
     "db:seed": "./node_modules/.bin/sequelize db:seed:all",
-    "start": "node ./build/index.js",
+    "start": "babel-node index.js"
     "start:prod": "npm run build:prod && npm run start:server",
     "build:prod": "babel src -s -D -d build",
     "start:server": "node build/index.js",
