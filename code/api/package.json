@@ -9,11 +9,13 @@
     "setup:db": "npm run db:migrate && npm run db:seed",
     "db:migrate": "./node_modules/.bin/sequelize db:migrate",
     "db:seed": "./node_modules/.bin/sequelize db:seed:all",
-    "start": "nodemon app.js --exec babel-node",
+    "start": "node build/app.js",
     "start:prod": "npm run build:prod && npm run start:server",
-    "build:prod": "babel src -s -D -d build",
-    "start:server": "node build/index.js",
-    "dev:server": "nodemon app.js --exec babel-node"
+    "start:server": "node build/app.js",
+    "dev:server": "nodemon src/app.js --exec babel-node",
+    "serve": "nodemon --exec babel-node src",
+    "build": "babel src --out-dir build",
+    "heroku-postbuild": "npm i && npm run build"
   },
   "keywords": [],
   "author": "",
