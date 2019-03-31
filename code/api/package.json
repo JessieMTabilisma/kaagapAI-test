@@ -5,7 +5,7 @@
   "main": "app.js",
   "scripts": {
     "clean": "rm -rf build && mkdir build",
-    "build-server": "babel -d ./build ./server -s",
+    "build-server": "babel -d ./build",
     "build": "npm run clean && npm run build-server",
     "setup": "npm run setup:install && npm run setup:db",
     "setup:install": "npm install",
