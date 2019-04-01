@@ -25,7 +25,7 @@ apollo.applyMiddleware({ app });
 var server;
 if (config.ssl) {
   console.log(
-    'SSL not yet supported. Please refer to this link: https://www.apollographql.com/docs/apollo-server/essentials/server'
+    'SSL not yet supported. Please refer to this link: https://www.apollographql.com/docs/apollo-server/essentials/server hahhha test'
   );
 } else {
   server = http.createServer(app);
