@@ -56,7 +56,7 @@ if (config.ssl) {
 }
 
 _models2.default.sequelize.sync().then(function (res) {
-  server.listen({ port: config.port }, function () {
+  server.listen({ port: config.port, ip: config.ip }, function () {
     console.log('🚀  Server ready at', 'http' + (config.ssl ? 's' : '') + '://' + config.hostname + ':' + config.port + apollo.graphqlPath);
   });
 }).catch(function (err) {

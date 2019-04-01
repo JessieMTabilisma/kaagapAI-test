@@ -34,7 +34,7 @@ if (config.ssl) {
 models.sequelize
   .sync()
   .then(res => {
-    server.listen({ port: config.port }, () => {
+    server.listen({ port: config.port, ip: config.ip}, () => {
       console.log(
         '🚀  Server ready at',
         `http${config.ssl ? 's' : ''}://${config.hostname}:${config.port}${
