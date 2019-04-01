@@ -34,7 +34,7 @@ var _http2 = _interopRequireDefault(_http);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-var environment = process.env.NODE_ENV || 'development'; // Change this Jessie
+var environment = process.env.NODE_ENV || 'production'; // Change this Jessie
 var config = _config2.default[environment];
 
 var apollo = new _apolloServerExpress.ApolloServer({
