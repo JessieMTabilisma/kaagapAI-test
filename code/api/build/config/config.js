@@ -16,6 +16,6 @@ module.exports = {
   production: {
     ssl: false,
     port: process.env.PORT || 4000,
-    hostname: process.env.DB_HOST_PROD
+    hostname: 'kaagapai.com'
   }
 };
