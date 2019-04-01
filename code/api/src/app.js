@@ -8,7 +8,7 @@ import configurations from './config/config';
 import cors from 'cors';
 import http from 'http';
 
-const environment = process.env.NODE_ENV || process.env.PORT || 'test'; // Change this Jessie
+const environment = process.env.NODE_ENV || 'test'; // Change this Jessie
 const config = configurations[environment];
 
 const apollo = new ApolloServer({
