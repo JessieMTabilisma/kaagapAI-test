@@ -1,4 +1,5 @@
 node_modules/
+build/
 public/images/uploads/*
 !public/images/uploads/.gitkeep
 .DS_Store
