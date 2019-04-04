@@ -8,4 +8,4 @@ MarkupSafe==1.0
 Werkzeug==0.12.2
 pdftotext==2.1.1
 ffmpeg==1.4
-https://drive.google.com/file/d/1z-2UZJi6o5Q9EalePZEapPXLu5tB_m_P/view?usp=sharing
+https://drive.google.com/file/d/12efFGE1pPuDTz_t-8buACqD2c1siGMMY/view?usp=sharing
