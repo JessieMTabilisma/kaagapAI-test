@@ -8,4 +8,4 @@ MarkupSafe==1.0
 Werkzeug==0.12.2
 pdftotext==2.1.1
 ffmpeg==1.4
-git+https://github.com/jaalto/cygwin-package--antiword.git
+https://drive.google.com/file/d/1z-2UZJi6o5Q9EalePZEapPXLu5tB_m_P/view?usp=sharing
