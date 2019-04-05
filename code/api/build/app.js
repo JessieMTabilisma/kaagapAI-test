@@ -20,9 +20,9 @@ var _models = require('./models');
 
 var _models2 = _interopRequireDefault(_models);
 
-var _config = require('./config/config');
+var _appconfig = require('./config/appconfig');
 
-var _config2 = _interopRequireDefault(_config);
+var _appconfig2 = _interopRequireDefault(_appconfig);
 
 var _cors = require('cors');
 
@@ -34,8 +34,11 @@ var _http2 = _interopRequireDefault(_http);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-var environment = process.env.NODE_ENV || 'production'; // Change this Jessie
-var config = _config2.default[environment];
+require('dotenv').config({ path: './.env' });
+
+
+var environment = 'test'; // Change this Jessie
+var config = _appconfig2.default[environment];
 
 var apollo = new _apolloServerExpress.ApolloServer({
   typeDefs: (0, _apolloServerExpress.gql)(_schema2.default),
@@ -56,7 +59,7 @@ if (config.ssl) {
 }
 
 _models2.default.sequelize.sync().then(function (res) {
-  server.listen({ port: config.port }, function () {
+  server.listen({ port: process.env.PORT || 4000 }, function () {
     console.log('🚀  Server ready at', 'http' + (config.ssl ? 's' : '') + '://' + config.hostname + ':' + config.port + apollo.graphqlPath);
   });
 }).catch(function (err) {

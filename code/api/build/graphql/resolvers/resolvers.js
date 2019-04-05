@@ -14,12 +14,12 @@ var _session = require('./session');
 
 var _session2 = _interopRequireDefault(_session);
 
-var _session_documents = require('./session_documents');
+var _session_document = require('./session_document');
 
-var _session_documents2 = _interopRequireDefault(_session_documents);
+var _session_document2 = _interopRequireDefault(_session_document);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-var resolvers = [_client2.default, _session2.default, _session_documents2.default];
+var resolvers = [_client2.default, _session2.default, _session_document2.default];
 
 exports.default = (0, _mergeGraphqlSchemas.mergeResolvers)(resolvers);

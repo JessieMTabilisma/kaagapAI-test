@@ -1,19 +1,28 @@
-const dotenv = require('dotenv').config();
+require('dotenv').config({path: '../.env'});
 
 module.exports = {
   development: {
-    ssl: false,
-    port: process.env.PORT || 4000,
-    hostname: process.env.DB_HOST_DEV
+    username: process.env.DB_USERNAME_DEV,
+    password: process.env.DB_PASSWORD,
+    database: process.env.DB_NAME_DEV,
+    host: process.env.DB_HOST_DEV,
+    dialect: 'mysql',
+    operatorsAliases: false
   },
   test: {
-    ssl: false,
-    port: process.env.PORT || 4000,
-    hostname: 'kaagapai.com'
+    username: process.env.DB_USERNAME_TEST,
+    password: process.env.DB_PASSWORD,
+    database: process.env.DB_NAME_TEST,
+    host: process.env.DB_HOST_TEST,
+    dialect: 'mysql',
+    operatorsAliases: false
   },
   production: {
-    ssl: false,
-    port: process.env.PORT || 4000,
-    hostname: 'kaagapai.com'
+    username: process.env.DB_USERNAME_PROD,
+    password: process.env.DB_PASSWORD,
+    database: process.env.DB_NAME_PROD,
+    host: process.env.DB_HOST_PROD,
+    dialect: 'mysql',
+    operatorsAliases: false
   }
 };

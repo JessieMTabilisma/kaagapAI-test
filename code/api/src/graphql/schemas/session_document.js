@@ -1,26 +1,25 @@
 export default `
   scalar Date 
-
-  enum Type {
-    PDF
-    TXT
-    DOCX
-  }
+  scalar UUID
 
   type SessionDocument {
-    sd_id: Int!
+    sd_id: UUID!
     file: String!
     file_name: String!
     content: String!
     date_added: Date!
     last_modified: Date
-    type: Type!
-    session_id: Int!
+    type: String!
+    session_id: UUID!
   }
 
   type Query { 
-    getSessionDocuments(session_id: Int!): [SessionDocument]
+    sessionDocuments(session_id: UUID!): [SessionDocument]
 
-    getSessionDocument(sd_id: Int!): SessionDocument
+    sessionDocument(sd_id: UUID!): SessionDocument
+  }
+
+  type Mutation {
+    uploadSessionDocument(file: Upload!, session_id: UUID!): SessionDocument!
   }
 `;

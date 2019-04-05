@@ -3,9 +3,9 @@
 module.exports = function (sequelize, DataTypes) {
   var Client = sequelize.define('Client', {
     c_id: {
-      type: DataTypes.INTEGER,
+      type: DataTypes.UUID,
       primaryKey: true,
-      autoIncrement: true
+      defaultValue: DataTypes.UUIDV4
     },
     fname: DataTypes.STRING,
     lname: DataTypes.STRING,

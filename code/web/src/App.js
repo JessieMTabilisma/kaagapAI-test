@@ -19,9 +19,9 @@ const cache = new InMemoryCache({
   dataIdFromObject: object => {
     switch (object.__typename) {
       case 'Client':
-        return object.c_id;
+        return 'client:' + object.c_id;
       case 'Session':
-        return object.session_id;
+        return 'session:' + object.session_id;
       default:
         return defaultDataIdFromObject(object);
     }
@@ -29,12 +29,12 @@ const cache = new InMemoryCache({
 });
 
 const client = new ApolloClient({
-  uri: 'https://kaagapai-test.herokuapp.com/graphql',
+  uri: 'http://kaagapai-test.com:4000/graphql',
   cache
 });
 
 // Remove this upon implementing authentication functionality
-localStorage.setItem(USER_ID, parseInt(1));
+localStorage.setItem(USER_ID, '67b8ba58-301e-45a3-ba01-ed6d0d229785');
 localStorage.setItem(AUTH_TOKEN, 'kaagapai');
 
 class App extends Component {

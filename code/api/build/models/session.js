@@ -3,9 +3,9 @@
 module.exports = function (sequelize, DataTypes) {
   var Session = sequelize.define('Session', {
     session_id: {
-      type: DataTypes.INTEGER,
+      type: DataTypes.UUID,
       primaryKey: true,
-      autoIncrement: true
+      defaultValue: DataTypes.UUIDV4
     },
     session_name: DataTypes.STRING,
     date_of_session: DataTypes.DATE

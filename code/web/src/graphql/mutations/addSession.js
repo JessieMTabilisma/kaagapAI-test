@@ -1,8 +1,10 @@
 import { gql } from 'apollo-boost';
 
+import SESSION_INFO from '../fragments/sessionInfo';
+
 const ADD_SESSION = gql`
   mutation AddSession(
-    $c_id: Int!
+    $c_id: UUID!
     $session_name: String!
     $date_of_session: Date!
   ) {
@@ -11,12 +13,10 @@ const ADD_SESSION = gql`
       session_name: $session_name
       date_of_session: $date_of_session
     ) {
-      __typename
-      session_id
-      session_name
-      date_of_session
+      ...SessionInfo
     }
   }
+  ${SESSION_INFO}
 `;
 
 export default ADD_SESSION;

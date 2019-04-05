@@ -3,7 +3,6 @@ import React from 'react';
 import { withStyles } from '@material-ui/core/styles';
 import Card from '@material-ui/core/Card';
 import CardContent from '@material-ui/core/CardContent';
-import CardActionArea from '@material-ui/core/CardActionArea';
 import CardActions from '@material-ui/core/CardActions';
 import Typography from '@material-ui/core/Typography';
 import Avatar from '@material-ui/core/Avatar';
@@ -18,6 +17,7 @@ import brown from '@material-ui/core/colors/brown';
 const styles = theme => ({
   card: {
     minWidth: 180,
+    minHeight: 200,
     boxShadow: '0 6px 10px rgba(0,0,0,.08), 0 0 6px rgba(0,0,0,.05)',
     marginTop: '1rem',
     background: '#fff',
@@ -34,7 +34,7 @@ const styles = theme => ({
   cardActions: {
     padding: 0,
     display: 'flex',
-    justifyContent: 'flex-end'
+    justifyContent: 'flex-start'
   },
   cardContent: {
     textAlign: 'center'
@@ -48,20 +48,20 @@ const styles = theme => ({
     height: 60,
     marginBottom: theme.spacing.unit * 2,
     marginTop: theme.spacing.unit * 1,
-    backgroundColor: grey[100],
+    backgroundColor: 'white',
     color: orange[700],
-    padding: '2px 2px 2px 2px'
+    padding: '2px 2px 2px 2px',
+    fontSize: theme.spacing.unit * 6
   },
   cardTitle: {
     fontSize: theme.spacing.unit * 2,
     fontWeight: 500,
-    textTransform: 'uppercase',
     color: grey[600],
     letterSpacing: '2px'
   },
   cardSubheader: {
     fontSize: theme.spacing.unit * 1.4,
-    color: brown[200],
+    color: brown[200]
   },
   iconAction: {
     '&:hover': {
@@ -71,36 +71,32 @@ const styles = theme => ({
   }
 });
 
-function SessionCard({
-  session: { session_id, session_name, date_of_session },
-  classes
-}) {
+function SessionCard({ session, classes, sessionEdited, sessionDeleted }) {
   return (
-    <Card
-      className={classes.card}
-      disableRipple={true}
-      disableTouchRipple={true}
-    >
-      <CardActionArea>
-        <CardContent className={classes.cardContent}>
-          <div className={classes.avatarContainer}>
-            <Avatar className={classes.avatar}>
-              <FolderIcon fontSize="large" />
-            </Avatar>
-          </div>
-          <Typography className={classes.cardTitle}>{session_name}</Typography>
-          <Typography className={classes.cardSubheader}>
-            <Moment format="MMM D, YYYY" withTitle>
-              {date_of_session}
-            </Moment>
-          </Typography>
-        </CardContent>
-      </CardActionArea>
+    <Card className={classes.card}>
+      <CardContent className={classes.cardContent}>
+        <div className={classes.avatarContainer}>
+          <Avatar className={classes.avatar}>
+            <FolderIcon fontSize="large" />
+          </Avatar>
+        </div>
+        <Typography className={classes.cardTitle}>
+          {session.session_name}
+        </Typography>
+        <Typography className={classes.cardSubheader}>
+          <Moment format="MMM D, YYYY" withTitle>
+            {session.date_of_session}
+          </Moment>
+        </Typography>
+      </CardContent>
       <CardActions className={classes.cardActions}>
         <IconButton
           disableRipple={true}
           aria-label="Archive"
           className={classes.iconAction}
+          onClick={() => {
+            sessionDeleted(session);
+          }}
         >
           <Icon fontSize="small">archive</Icon>
         </IconButton>
@@ -108,6 +104,9 @@ function SessionCard({
           disableRipple={true}
           aria-label="Edit"
           className={classes.iconAction}
+          onClick={() => {
+            sessionEdited(session);
+          }}
         >
           <Icon fontSize="small">edit</Icon>
         </IconButton>

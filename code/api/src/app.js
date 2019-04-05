@@ -1,14 +1,15 @@
+require('dotenv').config({ path: './.env' });
 import '@babel/polyfill';
 import express from 'express';
 import { ApolloServer, gql } from 'apollo-server-express';
 import typeDefs from './graphql/schemas/schema';
 import resolvers from './graphql/resolvers/resolvers';
 import models from './models';
-import configurations from './config/config';
+import configurations from './config/appconfig';
 import cors from 'cors';
 import http from 'http';
 
-const environment = process.env.NODE_ENV || 'production'; // Change this Jessie
+const environment = 'test'; // Change this Jessie
 const config = configurations[environment];
 
 const apollo = new ApolloServer({
@@ -34,7 +35,7 @@ if (config.ssl) {
 models.sequelize
   .sync()
   .then(res => {
-    server.listen({ port: config.port }, () => {
+    server.listen({ port: process.env.PORT || 4000 }, () => {
       console.log(
         '🚀  Server ready at',
         `http${config.ssl ? 's' : ''}://${config.hostname}:${config.port}${

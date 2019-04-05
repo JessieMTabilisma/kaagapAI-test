@@ -3,9 +3,9 @@
 module.exports = function (sequelize, DataTypes) {
   var Practitioner = sequelize.define('Practitioner', {
     p_id: {
-      type: DataTypes.INTEGER,
+      type: DataTypes.UUID,
       primaryKey: true,
-      autoIncrement: true
+      defaultValue: DataTypes.UUIDV4
     },
     email: DataTypes.STRING,
     phone_no: DataTypes.CHAR,
@@ -20,6 +20,8 @@ module.exports = function (sequelize, DataTypes) {
     last_logged: DataTypes.DATE,
     session_token: DataTypes.CHAR
   });
+
+  Practitioner.removeAttribute('id');
 
   Practitioner.associate = function (models) {
     Practitioner.hasMany(models.Client, {

@@ -12,8 +12,6 @@ import CardContent from '@material-ui/core/CardContent';
 import Typography from '@material-ui/core/Typography';
 import ButtonBase from '@material-ui/core/ButtonBase';
 
-import { getInitials } from '../../../../util/helperFunctions';
-
 const styles = theme => ({
   avatar: {
     backgroundColor: '#0091ea',
@@ -35,11 +33,10 @@ const styles = theme => ({
       boxShadow: '0 10px 20px rgba(0,0,0,.12), 0 4px 8px rgba(0,0,0,.06)',
       padding: '0px 0px 0px 0px'
     },
-    cardContent: {
-      // padding: '14px 80px 18px 36px'
-    },
     action: {
-      dispay: 'flex'
+      padding: 0,
+      display: 'flex',
+      justifyContent: 'flex-start'
     }
   },
   nameClient: {
@@ -69,9 +66,8 @@ const styles = theme => ({
   }
 });
 
-function ClientCard({ classes, client }) {
+function ClientCard({ classes, client, clientEdited, clientDeleted }) {
   const { fname, lname, no_of_sessions } = client;
-  const initials = getInitials(fname, lname);
   const name = fname + ' ' + lname;
   const sessions =
     no_of_sessions > 0 ? no_of_sessions + ' sessions' : 'No sessions yet';
@@ -87,7 +83,9 @@ function ClientCard({ classes, client }) {
         component={CardLink}
       >
         <CardContent className={classes.cardContent}>
-          <Avatar className={classes.avatar}>{initials}</Avatar>
+          <Avatar className={classes.avatar}>
+            <Icon fontSize="large">person</Icon>
+          </Avatar>
           <Typography
             noWrap
             variant="h6"
@@ -101,11 +99,14 @@ function ClientCard({ classes, client }) {
           </Typography>
         </CardContent>
       </ButtonBase>
-      <CardActions disableActionSpacing className={classes.action}>
+      <CardActions className={classes.action}>
         <IconButton
           className={classes.iconHover}
           disableRipple={true}
           aria-label="Archive"
+          onClick={() => {
+            clientDeleted(client);
+          }}
         >
           <Icon>archive</Icon>
         </IconButton>
@@ -113,6 +114,9 @@ function ClientCard({ classes, client }) {
           className={classes.iconHover}
           disableRipple={true}
           aria-label="Edit"
+          onClick={() => {
+            clientEdited(client);
+          }}
         >
           <Icon>edit</Icon>
         </IconButton>

@@ -13,7 +13,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 var dotenv = require('dotenv').config();
 
 
-var sequelize = new _sequelize2.default(process.env.DB_NAME_TEST, process.env.DB_USERNAME, process.env.DB_PASSWORD, {
+var sequelize = new _sequelize2.default(process.env.DB_NAME_TEST, process.env.DB_USERNAME_TEST, process.env.DB_PASSWORD, {
   dialect: 'mysql',
   host: process.env.DB_HOST_TEST,
   port: process.env.DB_PORT,

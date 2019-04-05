@@ -3,10 +3,10 @@ module.exports = {
   up: (queryInterface, Sequelize) => {
     return queryInterface.createTable('Session_Documents', {
       sd_id: {
-        allowNull: false,
-        autoIncrement: true,
+        type: Sequelize.UUID,
         primaryKey: true,
-        type: Sequelize.INTEGER
+        allowNull: false,
+        defaultValue: Sequelize.UUIDV4
       },
       file: {
         type: Sequelize.STRING
@@ -24,10 +24,10 @@ module.exports = {
         type: Sequelize.DATE
       },
       type: {
-        type: Sequelize.ENUM('PDF', 'TXT', 'DOCX')
+        type: Sequelize.STRING
       },
       session_id: {
-        type: Sequelize.INTEGER,
+        type: Sequelize.UUID,
         onDelete:'CASCADE',
         onUpdate: 'CASCADE',
         references: {

@@ -1,7 +1,5 @@
 import React, { Component } from 'react';
 
-import { USER_ID } from '../../../util/constants';
-
 import DELETE_CLIENT from '../../../graphql/mutations/deleteClient';
 import { Mutation } from 'react-apollo';
 import CLIENTS from '../../../graphql/queries/clients';
@@ -48,34 +46,27 @@ class DeleteClientDialog extends Component {
     super(props);
 
     this.state = {
-      c_id: parseInt(props.clientId),
       clientName: ''
     };
   }
 
   componentWillReceiveProps(nextProps) {
     this.setState({
-      c_id: parseInt(nextProps.clientId),
       clientName: ''
     });
   }
 
-  inputNameChangeHandler = e => {
-    this.setState({ clientName: e.target.value });
-  };
-
   render() {
     const {
-      isOpened,
+      opened,
       closed,
-      clientId,
-      fname,
-      lname,
+      client,
       classes,
-      fullScreen
+      fullScreen,
+      practitionerId
     } = this.props;
 
-    const clientName = fname + ' ' + lname;
+    const clientName = client.fname + ' ' + client.lname;
 
     return (
       <Mutation
@@ -90,7 +81,7 @@ class DeleteClientDialog extends Component {
         ) => {
           const clientsQueryParams = {
             query: CLIENTS,
-            variables: { p_id: parseInt(localStorage.getItem(USER_ID)) }
+            variables: { p_id: practitionerId }
           };
 
           const { clients } = cloneDeep(cache.readQuery(clientsQueryParams));
@@ -98,7 +89,7 @@ class DeleteClientDialog extends Component {
           cache.writeQuery({
             ...clientsQueryParams,
             data: {
-              clients: clients.filter(c => parseInt(c.c_id) !== parseInt(c_id))
+              clients: clients.filter(c => c.c_id !== c_id)
             }
           });
 
@@ -110,15 +101,15 @@ class DeleteClientDialog extends Component {
           __typename: 'Mutation',
           deleteClient: {
             __typename: 'Client',
-            c_id: parseInt(clientId),
-            fname: fname,
-            lname: lname
+            c_id: client.c_id,
+            fname: client.fname,
+            lname: client.lname
           }
         }}
       >
         {deleteClient => (
           <Dialog
-            open={isOpened}
+            open={opened}
             onClose={closed}
             fullScreen={fullScreen}
             TransitionComponent={Transition}
@@ -160,7 +151,8 @@ class DeleteClientDialog extends Component {
                 className={classes.deleteColor}
                 disabled={!(this.state.clientName === clientName)}
                 onClick={() => {
-                  deleteClient({ variables: { c_id: parseInt(clientId) } });
+                  deleteClient({ variables: { c_id: client.c_id } });
+
                   closed();
                 }}
                 autoFocus

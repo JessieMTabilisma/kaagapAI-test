@@ -1,12 +1,20 @@
-"use strict";
+'use strict';
 
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
+var _graphqlTypeUuid = require('graphql-type-uuid');
+
+var _graphqlTypeUuid2 = _interopRequireDefault(_graphqlTypeUuid);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
 function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, arguments); return new Promise(function (resolve, reject) { function step(key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { return Promise.resolve(value).then(function (value) { step("next", value); }, function (err) { step("throw", err); }); } } return step("next"); }); }; }
 
 exports.default = {
+  UUID: _graphqlTypeUuid2.default,
+
   Client: {
     sessions: function sessions(_ref, args, _ref2) {
       var c_id = _ref.c_id;
@@ -14,6 +22,7 @@ exports.default = {
 
       return models.Session.findAll({ where: { c_id: c_id } });
     },
+
     no_of_sessions: function no_of_sessions(_ref3, args, _ref4) {
       var c_id = _ref3.c_id;
       var models = _ref4.models;
@@ -21,6 +30,7 @@ exports.default = {
       return models.Session.count({ where: { c_id: c_id } });
     }
   },
+
   Query: {
     clients: function clients(parent, _ref5, _ref6) {
       var p_id = _ref5.p_id;
@@ -31,6 +41,7 @@ exports.default = {
         where: { p_id: p_id }
       });
     },
+
     client: function () {
       var _ref7 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee(parent, _ref8, _ref9) {
         var c_id = _ref8.c_id;
@@ -49,10 +60,10 @@ exports.default = {
                 return models.Client.findOne({ where: { c_id: c_id } });
 
               case 4:
-                return _context.abrupt("return", _context.sent);
+                return _context.abrupt('return', _context.sent);
 
               case 5:
-              case "end":
+              case 'end':
                 return _context.stop();
             }
           }
@@ -64,6 +75,7 @@ exports.default = {
       };
     }()
   },
+
   Mutation: {
     addClient: function () {
       var _ref10 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee2(parent, _ref11, _ref12) {
@@ -98,10 +110,10 @@ exports.default = {
                 });
 
               case 6:
-                return _context2.abrupt("return", _context2.sent);
+                return _context2.abrupt('return', _context2.sent);
 
               case 7:
-              case "end":
+              case 'end':
                 return _context2.stop();
             }
           }
@@ -112,6 +124,7 @@ exports.default = {
         return _ref10.apply(this, arguments);
       };
     }(),
+
     deleteClient: function () {
       var _ref13 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee3(parent, _ref14, _ref15) {
         var c_id = _ref14.c_id;
@@ -135,10 +148,10 @@ exports.default = {
                 });
 
               case 5:
-                return _context3.abrupt("return", deleteClientRes);
+                return _context3.abrupt('return', deleteClientRes);
 
               case 6:
-              case "end":
+              case 'end':
                 return _context3.stop();
             }
           }
@@ -149,6 +162,7 @@ exports.default = {
         return _ref13.apply(this, arguments);
       };
     }(),
+
     updateClientInformation: function () {
       var _ref16 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee4(parent, _ref17, _ref18) {
         var c_id = _ref17.c_id,
@@ -179,10 +193,10 @@ exports.default = {
                 });
 
               case 4:
-                return _context4.abrupt("return", _context4.sent);
+                return _context4.abrupt('return', _context4.sent);
 
               case 5:
-              case "end":
+              case 'end':
                 return _context4.stop();
             }
           }
