@@ -1,12 +1,16 @@
-import { createReadStream, createWriteStream, unlinkSync, rename } from 'fs';
-import ffmpegInstaller from '@ffmpeg-installer/ffmpeg';
+import {
+  createReadStream,
+  createWriteStream,
+  unlinkSync,
+  rename
+} from 'fs';
 import ffmpeg from 'fluent-ffmpeg';
 import shortid from 'shortid';
 import path from 'path';
 
 //Google Cloud APIs
 import { Storage } from '@google-cloud/storage';
-import { Translate } from '@google-cloud/translate';
+import { Translate } from  '@google-cloud/translate';
 const speech = require('@google-cloud/speech').v1p1beta1;
 const projectId = 'Prometheus-kaagapai';
 
@@ -18,8 +22,7 @@ const bucket = storage.bucket('kaagapai-uploads');
 
 //renaming filename of files
 const renameFile = ({ inputPath, session_id }) => {
-  const newFileName =
-    session_id + '-' + shortid.generate() + path.parse(inputPath).ext;
+  const newFileName = session_id + '-' + shortid.generate() + path.parse(inputPath).ext;
   const newPath = './src/tmp/' + newFileName;
 
   rename(inputPath, newPath, function(err) {
@@ -41,7 +44,7 @@ const storeUpload = ({ stream, inputPath }) =>
   );
 
 //translating
-const translateText = text => {
+const translateText = (text) => {
   const translate = new Translate({
     projectId: projectId
   });
@@ -57,10 +60,10 @@ const translateText = text => {
       resolve(translation);
     });
   });
-};
+}
 
 //upload to google cloud storage
-const uploadGCS = path => {
+const uploadGCS = (path) => {
   return new Promise(resolve => {
     bucket.upload(path, function(err, file) {
       if (err) {
@@ -71,19 +74,17 @@ const uploadGCS = path => {
       }
     });
   });
-};
+}
 
 //delete tmp file
-const deleteTmp = path => {
+const deleteTmp = (path) => {
   try {
     unlinkSync(path);
   } catch (ex) {
     console.log(ex);
   }
-};
+}
 
-// setting the path of the installer
-ffmpeg.setFfmpegPath(ffmpegInstaller.path);
 //convert audio file
 const convert = (inputPath, outputPath) => {
   return new Promise(resolve => {
@@ -102,10 +103,10 @@ const convert = (inputPath, outputPath) => {
       })
       .save(outputPath);
   });
-};
+}
 
 //extract text from audio file
-const extractText = async gcsUri => {
+const extractText = async(gcsUri) => {
   const client = new speech.SpeechClient();
 
   // The audio file's encoding, sample rate in hertz, and BCP-47 language code
@@ -131,19 +132,19 @@ const extractText = async gcsUri => {
     .map(result => result.alternatives[0].transcript)
     .join('\n');
   return await transcription;
-};
+}
 
 //deleting from GCS
-const deleteFileFromGCS = filename => {
+const deleteFileFromGCS = (filename) => {
   bucket.file(filename).delete();
-};
+}
 
 //retrieving file from GCS
-const getFileFromGCS = filename => {
+const getFileFromGCS = (filename) => {
   const blob = bucket.file(filename);
   const blobStream = blob.createReadStream();
   return blobStream;
-};
+}
 
 export default {
   renameFile,

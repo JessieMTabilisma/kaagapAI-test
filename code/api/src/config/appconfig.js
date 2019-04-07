@@ -1,15 +1,15 @@
-require('dotenv').config({ path: '../.env' });
+require('dotenv').config({path: '../.env'});
 
 module.exports = {
   development: {
     ssl: false,
     port: process.env.PORT || 4000,
-    hostname: 'kaagapai-dev.com'
+    hostname: process.env.HOST_DEV
   },
   test: {
     ssl: false,
     port: process.env.PORT || 4000,
-    hostname: 'kaagapai-test.com'
+    hostname: process.env.HOST_TEST
   },
   production: {
     ssl: false,

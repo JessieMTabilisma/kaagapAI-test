@@ -37,7 +37,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 require('dotenv').config({ path: './.env' });
 
 
-var environment = 'test'; // Change this Jessie
+var environment = 'development'; // Change this Jessie
 var config = _appconfig2.default[environment];
 
 var apollo = new _apolloServerExpress.ApolloServer({
