@@ -1,0 +1,10 @@
+click==6.7
+easytextract==1.1.5
+ffmpeg==1.4
+pdftotext==2.1.1
+Flask==0.12.2
+freeport==0.1.9
+itsdangerous==0.24
+Jinja2==2.9.6
+MarkupSafe==1.0
+Werkzeug==0.12.2
