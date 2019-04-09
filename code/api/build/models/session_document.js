@@ -12,7 +12,11 @@ module.exports = function (sequelize, DataTypes) {
     content: DataTypes.TEXT('long'),
     date_added: DataTypes.DATE,
     last_modified: DataTypes.DATE,
-    type: DataTypes.STRING
+    type: DataTypes.STRING,
+    archive_status: {
+      type: DataTypes.ENUM('archived', 'active'),
+      defaultValue: 'active'
+    }
   });
 
   Session_Document.associate = function (models) {

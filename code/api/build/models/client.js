@@ -12,7 +12,11 @@ module.exports = function (sequelize, DataTypes) {
     gender: DataTypes.ENUM('M', 'F'),
     birthdate: DataTypes.DATEONLY,
     date_added: DataTypes.DATEONLY,
-    last_opened: DataTypes.DATE
+    last_opened: DataTypes.DATE,
+    archive_status: {
+      type: DataTypes.ENUM('archived', 'active'),
+      defaultValue: 'active'
+    }
   });
 
   Client.associate = function (models) {

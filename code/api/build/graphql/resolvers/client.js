@@ -20,7 +20,12 @@ exports.default = {
       var c_id = _ref.c_id;
       var models = _ref2.models;
 
-      return models.Session.findAll({ where: { c_id: c_id } });
+      return models.Session.findAll({
+        where: {
+          c_id: c_id,
+          archive_status: 'active'
+        }
+      });
     },
 
     no_of_sessions: function no_of_sessions(_ref3, args, _ref4) {
@@ -38,7 +43,10 @@ exports.default = {
 
       return models.Client.findAll({
         raw: true,
-        where: { p_id: p_id }
+        where: {
+          p_id: p_id,
+          archive_status: 'active'
+        }
       });
     },
 
@@ -129,28 +137,49 @@ exports.default = {
       var _ref13 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee3(parent, _ref14, _ref15) {
         var c_id = _ref14.c_id;
         var models = _ref15.models;
-        var deleteClientRes;
         return regeneratorRuntime.wrap(function _callee3$(_context3) {
           while (1) {
             switch (_context3.prev = _context3.next) {
               case 0:
                 _context3.next = 2;
+                return models.Client.update({ archive_status: "archived" }, {
+                  where: { c_id: c_id }
+                });
+
+              case 2:
+                _context3.next = 4;
+                return models.Session.update({ archive_status: "archived" }, {
+                  where: { c_id: c_id }
+                });
+
+              case 4:
+                _context3.next = 6;
+                return models.Session.findAll({
+                  where: {
+                    c_id: c_id
+                  },
+                  attributes: ["session_id"]
+                }).then(function (res) {
+                  res.forEach(function (element) {
+                    var id = element.dataValues.session_id;
+
+                    models.Session_Document.update({ archive_status: "archived" }, {
+                      where: { session_id: id }
+                    });
+                  });
+                });
+
+              case 6:
+                _context3.next = 8;
                 return models.Client.findOne({
                   raw: true,
                   where: { c_id: c_id }
                 });
 
-              case 2:
-                deleteClientRes = _context3.sent;
-                _context3.next = 5;
-                return models.Client.destroy({
-                  where: { c_id: c_id }
-                });
+              case 8:
+                return _context3.abrupt('return', _context3.sent);
 
-              case 5:
-                return _context3.abrupt('return', deleteClientRes);
-
-              case 6:
+              case 9:
               case 'end':
                 return _context3.stop();
             }
@@ -163,19 +192,78 @@ exports.default = {
       };
     }(),
 
-    updateClientInformation: function () {
+    restoreClient: function () {
       var _ref16 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee4(parent, _ref17, _ref18) {
-        var c_id = _ref17.c_id,
-            fname = _ref17.fname,
-            lname = _ref17.lname,
-            birthdate = _ref17.birthdate,
-            gender = _ref17.gender;
+        var c_id = _ref17.c_id;
         var models = _ref18.models;
         return regeneratorRuntime.wrap(function _callee4$(_context4) {
           while (1) {
             switch (_context4.prev = _context4.next) {
               case 0:
                 _context4.next = 2;
+                return models.Client.update({ archive_status: "active" }, {
+                  where: { c_id: c_id }
+                });
+
+              case 2:
+                _context4.next = 4;
+                return models.Session.update({ archive_status: "active" }, {
+                  where: { c_id: c_id }
+                });
+
+              case 4:
+                _context4.next = 6;
+                return models.Session.findAll({
+                  where: {
+                    c_id: c_id
+                  },
+                  attributes: ["session_id"]
+                }).then(function (res) {
+                  res.forEach(function (element) {
+                    var id = element.dataValues.session_id;
+
+                    models.Session_Document.update({ archive_status: "active" }, {
+                      where: { session_id: id }
+                    });
+                  });
+                });
+
+              case 6:
+                _context4.next = 8;
+                return models.Client.findOne({
+                  raw: true,
+                  where: { c_id: c_id }
+                });
+
+              case 8:
+                return _context4.abrupt('return', _context4.sent);
+
+              case 9:
+              case 'end':
+                return _context4.stop();
+            }
+          }
+        }, _callee4, undefined);
+      }));
+
+      return function restoreClient(_x10, _x11, _x12) {
+        return _ref16.apply(this, arguments);
+      };
+    }(),
+
+    updateClientInformation: function () {
+      var _ref19 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee5(parent, _ref20, _ref21) {
+        var c_id = _ref20.c_id,
+            fname = _ref20.fname,
+            lname = _ref20.lname,
+            birthdate = _ref20.birthdate,
+            gender = _ref20.gender;
+        var models = _ref21.models;
+        return regeneratorRuntime.wrap(function _callee5$(_context5) {
+          while (1) {
+            switch (_context5.prev = _context5.next) {
+              case 0:
+                _context5.next = 2;
                 return models.Client.update({
                   fname: fname,
                   lname: lname,
@@ -186,25 +274,25 @@ exports.default = {
                 });
 
               case 2:
-                _context4.next = 4;
+                _context5.next = 4;
                 return models.Client.findOne({
                   raw: true,
                   where: { c_id: c_id }
                 });
 
               case 4:
-                return _context4.abrupt('return', _context4.sent);
+                return _context5.abrupt('return', _context5.sent);
 
               case 5:
               case 'end':
-                return _context4.stop();
+                return _context5.stop();
             }
           }
-        }, _callee4, undefined);
+        }, _callee5, undefined);
       }));
 
-      return function updateClientInformation(_x10, _x11, _x12) {
-        return _ref16.apply(this, arguments);
+      return function updateClientInformation(_x13, _x14, _x15) {
+        return _ref19.apply(this, arguments);
       };
     }()
   }

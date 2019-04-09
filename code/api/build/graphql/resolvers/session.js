@@ -20,7 +20,12 @@ exports.default = {
       var session_id = _ref.session_id;
       var models = _ref2.models;
 
-      return models.Session_Document.findAll({ where: { session_id: session_id } });
+      return models.Session_Document.findAll({
+        where: {
+          session_id: session_id,
+          archive_status: 'active'
+        }
+      });
     }
   },
 
@@ -101,31 +106,34 @@ exports.default = {
 
     deleteSession: function () {
       var _ref9 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee3(parent, _ref10, _ref11) {
-        var session_id = _ref10.session_id,
-            c_id = _ref10.c_id;
+        var session_id = _ref10.session_id;
         var models = _ref11.models;
-        var deleteSessionRes;
         return regeneratorRuntime.wrap(function _callee3$(_context3) {
           while (1) {
             switch (_context3.prev = _context3.next) {
               case 0:
                 _context3.next = 2;
+                return models.Session.update({ archive_status: "archived" }, {
+                  where: { session_id: session_id }
+                });
+
+              case 2:
+                _context3.next = 4;
+                return models.Session_Document.update({ archive_status: "archived" }, {
+                  where: { session_id: session_id }
+                });
+
+              case 4:
+                _context3.next = 6;
                 return models.Session.findOne({
                   raw: true,
                   where: { session_id: session_id }
                 });
 
-              case 2:
-                deleteSessionRes = _context3.sent;
-                _context3.next = 5;
-                return models.Session.destroy({
-                  where: { session_id: session_id, c_id: c_id }
-                });
-
-              case 5:
-                return _context3.abrupt('return', deleteSessionRes);
-
               case 6:
+                return _context3.abrupt('return', _context3.sent);
+
+              case 7:
               case 'end':
                 return _context3.stop();
             }
@@ -138,17 +146,59 @@ exports.default = {
       };
     }(),
 
-    updateSessionInformation: function () {
+    restoreSession: function () {
       var _ref12 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee4(parent, _ref13, _ref14) {
-        var session_id = _ref13.session_id,
-            session_name = _ref13.session_name,
-            date_of_session = _ref13.date_of_session;
+        var session_id = _ref13.session_id;
         var models = _ref14.models;
         return regeneratorRuntime.wrap(function _callee4$(_context4) {
           while (1) {
             switch (_context4.prev = _context4.next) {
               case 0:
                 _context4.next = 2;
+                return models.Session.update({ archive_status: "active" }, {
+                  where: { session_id: session_id }
+                });
+
+              case 2:
+                _context4.next = 4;
+                return models.Session_Document.update({ archive_status: "active" }, {
+                  where: { session_id: session_id }
+                });
+
+              case 4:
+                _context4.next = 6;
+                return models.Session.findOne({
+                  raw: true,
+                  where: { session_id: session_id }
+                });
+
+              case 6:
+                return _context4.abrupt('return', _context4.sent);
+
+              case 7:
+              case 'end':
+                return _context4.stop();
+            }
+          }
+        }, _callee4, undefined);
+      }));
+
+      return function restoreSession(_x10, _x11, _x12) {
+        return _ref12.apply(this, arguments);
+      };
+    }(),
+
+    updateSessionInformation: function () {
+      var _ref15 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee5(parent, _ref16, _ref17) {
+        var session_id = _ref16.session_id,
+            session_name = _ref16.session_name,
+            date_of_session = _ref16.date_of_session;
+        var models = _ref17.models;
+        return regeneratorRuntime.wrap(function _callee5$(_context5) {
+          while (1) {
+            switch (_context5.prev = _context5.next) {
+              case 0:
+                _context5.next = 2;
                 return models.Session.update({
                   session_name: session_name,
                   date_of_session: date_of_session
@@ -157,25 +207,25 @@ exports.default = {
                 });
 
               case 2:
-                _context4.next = 4;
+                _context5.next = 4;
                 return models.Session.findOne({
                   raw: true,
                   where: { session_id: session_id }
                 });
 
               case 4:
-                return _context4.abrupt('return', _context4.sent);
+                return _context5.abrupt('return', _context5.sent);
 
               case 5:
               case 'end':
-                return _context4.stop();
+                return _context5.stop();
             }
           }
-        }, _callee4, undefined);
+        }, _callee5, undefined);
       }));
 
-      return function updateSessionInformation(_x10, _x11, _x12) {
-        return _ref12.apply(this, arguments);
+      return function updateSessionInformation(_x13, _x14, _x15) {
+        return _ref15.apply(this, arguments);
       };
     }()
   }

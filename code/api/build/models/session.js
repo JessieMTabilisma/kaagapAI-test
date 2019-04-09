@@ -8,7 +8,11 @@ module.exports = function (sequelize, DataTypes) {
       defaultValue: DataTypes.UUIDV4
     },
     session_name: DataTypes.STRING,
-    date_of_session: DataTypes.DATE
+    date_of_session: DataTypes.DATE,
+    archive_status: {
+      type: DataTypes.ENUM('archived', 'active'),
+      defaultValue: 'active'
+    }
   });
 
   Session.associate = function (models) {
